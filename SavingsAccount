@@ -2,14 +2,14 @@ package p3;
 
 import java.util.GregorianCalendar;
 
-public class savingsAccount extends Account {
+public class SavingsAccount extends Account {
 
 	private static final long serialVersionUID = 1L;
 
 	private double minBalance;
 	private double interestRate;
 
-	public savingsAccount(int number, String owner,
+	public SavingsAccount(int number, String owner,
 			GregorianCalendar dateOpened, double balance, double minBalance,
 			double interestRate) {
 		super(number, owner, dateOpened, balance);
