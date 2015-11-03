@@ -36,6 +36,7 @@ public abstract class Account implements Serializable {
 	public Account (int num, String owner, 
 			GregorianCalendar dateOpened, double balance) {
 		this.number = num;
+		dateOpened.setLenient(false);
 		this.owner = owner;
 		this.dateOpened = dateOpened;
 		this.balance = balance;
