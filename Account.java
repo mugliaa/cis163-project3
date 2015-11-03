@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
  * Stores bank details for a single account. Information includes 
  * number, owner, opening date, and the balance of the account.
  * @author Adam Muglia & Tyler Miller
- * @version 10-28-2015
+ * @version 11-04-2015
  *********************************************************************/
 public abstract class Account implements Serializable {
 	/** Required to implement Serializable */
@@ -53,6 +53,7 @@ public abstract class Account implements Serializable {
 	/******************************************************************
 	 * Sets the unique number corresponding to an account.
 	 * @param number the unique number being set
+	 * @return void
 	 *****************************************************************/
 	public void setNumber(int number) {
 		this.number = number;
@@ -69,6 +70,7 @@ public abstract class Account implements Serializable {
 	/******************************************************************
 	 * Sets the name of the account owner.
 	 * @param owner name of the owner being set
+	 * @return void
 	 *****************************************************************/
 	public void setOwner(String owner) {
 		this.owner = owner;
@@ -85,6 +87,7 @@ public abstract class Account implements Serializable {
 	/******************************************************************
 	 * Sets the date that the account was opened.
 	 * @param dateOpened the date the account was opened
+	 * @return void
 	 *****************************************************************/
 	public void setDateOpened(GregorianCalendar dateOpened) {
 		this.dateOpened = dateOpened;
@@ -101,13 +104,14 @@ public abstract class Account implements Serializable {
 	/******************************************************************
 	 * Sets the current balance of the account.
 	 * @param balance the balance of the account
+	 * @return void
 	 *****************************************************************/
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	
 	/******************************************************************
-	 * Checks if two accounts are equal.
+	 * Checks if two accounts are equal via the number associated.
 	 * @param acct the account that is being compared
 	 * @return true if equal; false if not equal
 	 *****************************************************************/
