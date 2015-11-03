@@ -1,4 +1,4 @@
-package p3;
+package project3;
 
 import java.util.GregorianCalendar;
 
@@ -10,8 +10,8 @@ public class SavingsAccount extends Account {
 	private double interestRate;
 
 	public SavingsAccount(int number, String owner,
-			GregorianCalendar dateOpened, double balance, double minBalance,
-			double interestRate) {
+			GregorianCalendar dateOpened, double balance, 
+			double minBalance, double interestRate) {
 		super(number, owner, dateOpened, balance);
 		this.minBalance = minBalance;
 		this.interestRate = interestRate;
@@ -42,10 +42,8 @@ public class SavingsAccount extends Account {
 	}
 
 	public String toString() {
-		return super.toString() + getMinBalance() + getInterestRate() + "\n";
+		return super.toString() + "" + "\n" + getMinBalance() + 
+				"\n" + getInterestRate();
 
 	}
-
-
-
 }
