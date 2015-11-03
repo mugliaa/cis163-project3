@@ -2,6 +2,7 @@ package project3;
 
 import java.io.*;
 import java.util.*;
+
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -9,30 +10,30 @@ public class BankModel extends AbstractTableModel implements Comparable {
 	private ArrayList<Account> accts;
 	String[] columnNames = {"Number", "Owner", "Date Opened", "Balance",
 			"Monthly Fee", "Minimum Balance", "Interest Rate"};
-	
+
 	public BankModel() {
 		accts = new ArrayList<>();
-		accts.add(new CheckingAccount(256, "Adam Muglia", 
-			new GregorianCalendar (5,5,2012), 155.50, 
-			12.50));
-		accts.add(new SavingsAccount(256, "Adam Muglia", 
-				new GregorianCalendar (5,5,2012), 155.50, 
-				12.50, 2.7));
+//		accts.add(new CheckingAccount(122, "Adam Muglia", 
+//				new GregorianCalendar (5,5,2012), 155.50, 
+//				12.50));
+//		accts.add(new SavingsAccount(211, "Tyler Miller", 
+//				new GregorianCalendar (5,5,2012), 52.22, 
+//				12.50, 2.7));
 	}
-	
-//	private Account find(int num) {
-//		for (int i = 0; i < getSize(); i++) {
-//			if (accts.get(i).getNumber() == num) {
-//				return accts.get(i);
-//			}
-//		}
-//		return null;
-//	}
-	
+
+	//	private Account find(int num) {
+	//		for (int i = 0; i < getSize(); i++) {
+	//			if (accts.get(i).getNumber() == num) {
+	//				return accts.get(i);
+	//			}
+	//		}
+	//		return null;
+	//	}
+
 	public String getColumnName(int col) {
 		return columnNames[col];
 	}
-	
+
 	@Override
 	public int getColumnCount() {
 		return 7;
@@ -54,62 +55,73 @@ public class BankModel extends AbstractTableModel implements Comparable {
 		return values[arg1];
 	}
 	
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public void add(Account acct) {
 		accts.add(acct);
 		fireTableDataChanged();
 	}
-	
-	public void delete(Account acct) {
-		for (int i = 0; i < accts.size(); i++) {
-			if (accts.get(i).equals(acct)) {
-				accts.remove(i);
-			}
-		}
+
+	public void delete(int index) {
+		accts.remove(index);
 		fireTableDataChanged();
 	}
-	
+
 	public void update(Account acct) {
 		fireTableDataChanged();
 	}
 	
-	public void sortByNumber() {
-	Collections.sort(accts, new Comparator<Account>() {
-    	@Override public int compare(Account x, Account y) {
-        return Integer.compare( x.getNumber(), y.getAccountNumber());
-			}
-		});
-        }
+	public void clear() {
+		accts.clear();
+		fireTableDataChanged();
+	}
 
-   
-	
+	public void sortByNumber() {
+		Collections.sort(accts, new Comparator<Account>() {
+			@Override public int compare(Account x, Account y) {
+				return Integer.compare(x.getNumber(), y.getNumber());
+			}
+		});
+		fireTableDataChanged();
+	}
+
+
+
 	public void sortByName() {
-	Collections.sort(accts, new Comparator<Account>() {
-    	@Override public int compare(Account x, Account y) {
-        return ( x.getOwner().compareTo.(y.getAccountNumber()));
+		Collections.sort(accts, new Comparator<Account>() {
+			@Override public int compare(Account x, Account y) {
+				return (x.getOwner().compareTo((y.getOwner())));
 			}
 		});
+		fireTableDataChanged();
 	}
-	
+
 	public void sortByDateOpened() {
-	Collections.sort(accts, new Comparator<Account>() {
-    	@Override public String compare(Account x, Account y) {
-        return ( x.getDateOpened().compareTo.(y.getDateOpened()));
+		Collections.sort(accts, new Comparator<Account>() {
+			@Override public int compare(Account x, Account y) {
+				return (x.getDateOpened().compareTo(y.getDateOpened()));
 			}
 		});
+		fireTableDataChanged();
 	}
-	
+
 	public void sortByBalance() {
-	Collections.sort(accts, new Comparator<Account>() {
-    	@Override public double compare(Account x, Account y) {
-        return Double.compare( x.getBalance(), y.getAccountNumber());
+		Collections.sort(accts, new Comparator<Account>() {
+			@Override public int compare(Account x, Account y) {
+				return Double.compare(x.getBalance(), y.getBalance());
 			}
 		});
+		fireTableDataChanged();
 	}
-	
+
 	public void loadText(String fileName) {
-		
+
 	}
-	
+
 	public void saveText(String fileName) {
 		PrintWriter out = null;
 		try {
@@ -125,19 +137,19 @@ public class BankModel extends AbstractTableModel implements Comparable {
 		out.close();
 		fireTableDataChanged();
 	}
-	
+
 	public void loadBinary(String fileName) {
 		fireTableDataChanged();
 	}
-	
+
 	public void saveBinary(String fileName) {
 		fireTableDataChanged();
 	}
-	
+
 	public void loadXML(String fileName) {
 		fireTableDataChanged();
 	}
-	
+
 	public void saveXML(String fileName) {
 		fireTableDataChanged();
 	}
