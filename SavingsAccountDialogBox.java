@@ -44,4 +44,13 @@ public class SavingsAccountDialogBox {
 				"Add Savings Account", 
 				JOptionPane.OK_CANCEL_OPTION);
 	}
+	
+	public void reset() {
+		numberField.setText("");
+		ownerField.setText("");
+		dateOpenedField.setText("");
+		balanceField.setText("");
+		minimumBalanceField.setText("");
+		interestRateField.setText("");
+	}
 }
