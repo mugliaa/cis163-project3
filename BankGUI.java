@@ -1,6 +1,6 @@
 package project3;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
@@ -10,11 +10,19 @@ import javax.swing.*;
 public class BankGUI extends JFrame {
 	private BankModel model;
 	
-	private JMenuBar menuBar;
-	private JMenu menu;
+//	private JList<Account> accts;
+	private JTable accts;
 	
-	private JPanel lblPanel;
-	private JPanel txtPanel;
+	private JMenuBar menuBar;
+	private JMenu menuFile;
+	private JMenu menuOptions;
+	
+	private JMenuItem addCheckingAccount;
+	private JMenuItem addSavingsAccount;
+	private JMenuItem delete;
+	private JMenuItem update;
+	private JMenuItem clear;
+	private JMenuItem quit;
 	
 	private JMenuItem loadBinary;
 	private JMenuItem saveBinary;
@@ -22,41 +30,27 @@ public class BankGUI extends JFrame {
 	private JMenuItem saveText;
 	private JMenuItem loadXML;
 	private JMenuItem saveXML;
-	private JMenuItem quit;
-	
-	private JButton add;
-	private JButton delete;
-	private JButton update;
-	private JButton clear;
-	
-	private JRadioButton checking;
-	private JRadioButton savings;
-	
-	private JLabel lblAccNum;
-	private JLabel lblAccOwner;
-	private JLabel lblDateOpened;
-	private JLabel lblAccBalance;
-	private JLabel lblMonFee;
-	private JLabel lblIntRate;
-	private JLabel lblMinBalance;
-	
-	private JTextField accNum;
-	private JTextField accOwner;
-	private JTextField dateOpened;
-	private JTextField accBalance;
-	private JTextField monFee;
-	private JTextField intRate;
-	private JTextField minBalance;
 	
 	private ButtonListener ls;
 	
 	public BankGUI() {
 		model = new BankModel();
 		
+		accts = new JTable(model);
+//		accts = new JList<Account>(model);
+		
 		ls = new ButtonListener();
 		
 		menuBar = new JMenuBar();
-		menu = new JMenu("File");
+		menuFile = new JMenu("File");
+		menuOptions = new JMenu("Options");
+		
+		addCheckingAccount = new JMenuItem("Add Checking Account...");
+		addSavingsAccount = new JMenuItem("Add Savings Account...");
+		delete = new JMenuItem("Delete");
+		update = new JMenuItem("Update");
+		clear = new JMenuItem("Clear");
+		quit = new JMenuItem("Quit");
 		
 		loadBinary = new JMenuItem("Load From Binary...");
 		saveBinary = new JMenuItem("Save As Binary...");
@@ -64,7 +58,13 @@ public class BankGUI extends JFrame {
 		saveText = new JMenuItem("Save As Text...");
 		loadXML = new JMenuItem("Load From XML...");
 		saveXML = new JMenuItem("Save As XML...");
-		quit = new JMenuItem("Quit");
+		
+		addCheckingAccount.addActionListener(ls);
+		addSavingsAccount.addActionListener(ls);
+		delete.addActionListener(ls);
+		update.addActionListener(ls);
+		clear.addActionListener(ls);
+		quit.addActionListener(ls);
 		
 		loadBinary.addActionListener(ls);
 		saveBinary.addActionListener(ls);
@@ -72,75 +72,31 @@ public class BankGUI extends JFrame {
 		saveText.addActionListener(ls);
 		loadXML.addActionListener(ls);
 		saveXML.addActionListener(ls);
-		quit.addActionListener(ls);
 		
-		menu.add(loadBinary);
-		menu.add(saveBinary);
-		menu.addSeparator();
-		menu.add(loadText);
-		menu.add(saveText);
-		menu.addSeparator();
-		menu.add(loadXML);
-		menu.add(saveXML);
-		menu.addSeparator();
-		menu.add(quit);
+		menuFile.add(addCheckingAccount);
+		menuFile.add(addSavingsAccount);
+		menuFile.addSeparator();
+		menuFile.add(delete);
+		menuFile.add(update);
+		menuFile.add(clear);
+		menuFile.addSeparator();
+		menuFile.add(quit);
 		
-		add = new JButton("Add");
-		delete = new JButton("Delete");
-		update = new JButton("Update");
-		clear = new JButton("Clear");
+		menuOptions.add(loadBinary);
+		menuOptions.add(saveBinary);
+		menuOptions.addSeparator();
+		menuOptions.add(loadText);
+		menuOptions.add(saveText);
+		menuOptions.addSeparator();
+		menuOptions.add(loadXML);
+		menuOptions.add(saveXML);
 		
-		add.addActionListener(ls);
-		delete.addActionListener(ls);
-		update.addActionListener(ls);
-		clear.addActionListener(ls);
-		
-		checking = new JRadioButton("Checking");
-		savings = new JRadioButton("Savings");
-		
-		checking.addActionListener(ls);
-		savings.addActionListener(ls);
-		
-		lblAccNum = new JLabel("Account Number: ");
-		lblAccOwner = new JLabel("Account Owner: ");
-		lblDateOpened = new JLabel("Date Opened: ");
-		lblAccBalance = new JLabel("Account Balance: ");
-		lblMonFee = new JLabel("Monthly Fee: ");
-		lblIntRate = new JLabel("Interest Rate: ");
-		lblMinBalance = new JLabel("Minimum Balance: ");
-		
-		accNum = new JTextField();
-		accOwner = new JTextField();
-		dateOpened = new JTextField();
-		accBalance = new JTextField();
-		monFee = new JTextField();
-		intRate = new JTextField();
-		minBalance = new JTextField();
-		
-		menuBar.add(menu);
-		
-		lblPanel = new JPanel();
-		lblPanel.add(lblAccNum);
-		lblPanel.add(lblAccOwner);
-		lblPanel.add(lblDateOpened);
-		lblPanel.add(lblAccBalance);
-		lblPanel.add(lblMonFee);
-		lblPanel.add(lblIntRate);
-		lblPanel.add(lblMinBalance);
-		
-		txtPanel = new JPanel();
-		txtPanel.add(accNum);
-		txtPanel.add(accOwner);
-		txtPanel.add(dateOpened);
-		txtPanel.add(accBalance);
-		txtPanel.add(monFee);
-		txtPanel.add(intRate);
-		txtPanel.add(minBalance);
+		menuBar.add(menuFile);
+		menuBar.add(menuOptions);
 		
 		add(menuBar, BorderLayout.NORTH);
-		
-		add(lblPanel, BorderLayout.WEST);
-		add(txtPanel, BorderLayout.EAST);
+		add(new JScrollPane(accts), BorderLayout.CENTER);
+//		add(accts, BorderLayout.SOUTH);
 	}
 	
 	public static void main(String[] args) {
@@ -149,7 +105,7 @@ public class BankGUI extends JFrame {
 		
 		frame.getContentPane();
 		
-		frame.setSize(600,800);
+		frame.setSize(800,800);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
@@ -161,13 +117,11 @@ public class BankGUI extends JFrame {
 				System.exit(0);
 			}
 
-			if (arg0.getSource() == add) {
-				// GregorianCalendar bollocks
-				if (checking.isSelected()) {
-					model.add(new CheckingAccount(Integer.parseInt(accNum.getText()), 
-							accOwner.getText(), new GregorianCalendar(), 
-							Double.parseDouble(accBalance.getText()), Double.parseDouble(monFee.getText())));
-				}
+			if (arg0.getSource() == addCheckingAccount) {
+				
+			}
+			
+			if (arg0.getSource() == addSavingsAccount) {
 				
 			}
 
