@@ -21,6 +21,7 @@ public class BankGUI extends JFrame {
 	
 	private JMenuBar menuBar;
 	private JMenu menuFile;
+	private JMenu menuSort;
 	private JMenu menuOptions;
 	
 	private JMenuItem addCheckingAccount;
@@ -29,6 +30,11 @@ public class BankGUI extends JFrame {
 	private JMenuItem update;
 	private JMenuItem clear;
 	private JMenuItem quit;
+	
+	private JMenuItem sortByNumber;
+	private JMenuItem sortByName;
+	private JMenuItem sortByDateOpened;
+	private JMenuItem sortByBalance;
 	
 	private JMenuItem loadBinary;
 	private JMenuItem saveBinary;
@@ -55,6 +61,7 @@ public class BankGUI extends JFrame {
 		
 		menuBar = new JMenuBar();
 		menuFile = new JMenu("File");
+		menuSort = new JMenu("Sort");
 		menuOptions = new JMenu("Options");
 		
 		addCheckingAccount = new JMenuItem("Add Checking Account...");
@@ -63,6 +70,11 @@ public class BankGUI extends JFrame {
 		update = new JMenuItem("Update");
 		clear = new JMenuItem("Clear");
 		quit = new JMenuItem("Quit");
+		
+		sortByNumber = new JMenuItem("By Number...");
+		sortByName = new JMenuItem("By Name...");
+		sortByDateOpened = new JMenuItem("By Date...");
+		sortByBalance = new JMenuItem("By Balance...");
 		
 		loadBinary = new JMenuItem("Load From Binary...");
 		saveBinary = new JMenuItem("Save As Binary...");
@@ -77,6 +89,11 @@ public class BankGUI extends JFrame {
 		update.addActionListener(ls);
 		clear.addActionListener(ls);
 		quit.addActionListener(ls);
+		
+		sortByNumber.addActionListener(ls);
+		sortByName.addActionListener(ls);
+		sortByDateOpened.addActionListener(ls);
+		sortByBalance.addActionListener(ls);
 		
 		loadBinary.addActionListener(ls);
 		saveBinary.addActionListener(ls);
@@ -94,6 +111,11 @@ public class BankGUI extends JFrame {
 		menuFile.addSeparator();
 		menuFile.add(quit);
 		
+		menuSort.add(sortByNumber);
+		menuSort.add(sortByName);
+		menuSort.add(sortByDateOpened);
+		menuSort.add(sortByBalance);
+		
 		menuOptions.add(loadBinary);
 		menuOptions.add(saveBinary);
 		menuOptions.addSeparator();
@@ -104,6 +126,7 @@ public class BankGUI extends JFrame {
 		menuOptions.add(saveXML);
 		
 		menuBar.add(menuFile);
+		menuBar.add(menuSort);
 		menuBar.add(menuOptions);
 		
 		add(menuBar, BorderLayout.NORTH);
@@ -117,7 +140,7 @@ public class BankGUI extends JFrame {
 		
 		frame.getContentPane();
 		
-		frame.setSize(800,800);
+		frame.setSize(800,500);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
@@ -130,15 +153,32 @@ public class BankGUI extends JFrame {
 			}
 
 			if (arg0.getSource() == addCheckingAccount) {
-//				addChecking.showInputDialog("Hello Checking");
 				int temp = addChecking.showDialog();
 				if (temp == JOptionPane.OK_OPTION) {
-					
+					String tempNum = addChecking.numberField.getText();
+					int num = Integer.parseInt(tempNum);
+					String owner = addChecking.ownerField.getText();
+					String tempDateOpened = 
+							addChecking.dateOpenedField.getText();
+					String[] s = tempDateOpened.split("/");
+					int s0 = Integer.parseInt(s[0]);
+					int s1 = Integer.parseInt(s[1]);
+					int s2 = Integer.parseInt(s[2]);
+					GregorianCalendar c = 
+							new GregorianCalendar(s2, s0, s1);
+					String tempBal = addChecking.balanceField.getText();
+					double balance = Double.parseDouble(tempBal);
+					String tempMonthlyFee = 
+							addChecking.monthlyFeeField.getText();
+					double monthlyFee = Double.parseDouble(
+							tempMonthlyFee);
+					model.add(new CheckingAccount(num, owner, c, 
+							balance, monthlyFee));
+					addChecking.reset();
 				}	
 			}
 			
 			if (arg0.getSource() == addSavingsAccount) {
-//				addSavings.showInputDialog("Hello Savings");
 				int temp = addSavings.showDialog();
 				if (temp == JOptionPane.OK_OPTION) {
 					String tempNum = addSavings.numberField.getText();
@@ -163,20 +203,37 @@ public class BankGUI extends JFrame {
 					
 					model.add(new SavingsAccount(num, owner, c, balance, 
 							minimumBal, intRate));
+					addSavings.reset();
 				}
 				
 			}
 
 			if (arg0.getSource() == delete) {
-				
+				model.delete(accts.getSelectedRow());
 			}
 			
 			if (arg0.getSource() == update) {
-
+				
 			}
 			
 			if (arg0.getSource() == clear) {
-				
+				model.clear();
+			}
+			
+			if (arg0.getSource() == sortByNumber) {
+				model.sortByNumber();
+			}
+			
+			if (arg0.getSource() == sortByName) {
+				model.sortByName();
+			}
+			
+			if (arg0.getSource() == sortByDateOpened) {
+				model.sortByDateOpened();
+			}
+			
+			if (arg0.getSource() == sortByBalance) {
+				model.sortByBalance();
 			}
 			
 			if (arg0.getSource() == loadBinary) {
