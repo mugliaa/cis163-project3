@@ -24,7 +24,7 @@ public class CheckingAccount extends Account {
 			GregorianCalendar dateOpened, double balance, 
 			double monthlyFee) {
 		// Calls the constructor for Account
-		super(num, owner, dateOpened, monthlyFee);
+		super(num, owner, dateOpened, balance);
 		this.monthlyFee = monthlyFee;
 	}
 
@@ -56,6 +56,6 @@ public class CheckingAccount extends Account {
 	}
 	
 	public String toString() {
-		return super.toString() + getMonthlyFee() + "\n";
+		return super.toString() + getMonthlyFee();
 	}
 }
