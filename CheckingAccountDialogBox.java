@@ -40,4 +40,12 @@ public class CheckingAccountDialogBox {
 				"Add Checking Account", 
 				JOptionPane.OK_CANCEL_OPTION);
 	}
+	
+	public void reset() {
+		numberField.setText("");
+		ownerField.setText("");
+		dateOpenedField.setText("");
+		balanceField.setText("");
+		monthlyFeeField.setText("");
+	}
 }
