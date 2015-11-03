@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
-public class BankModel extends AbstractTableModel {
+public class BankModel extends AbstractTableModel implements Comparable {
 	private ArrayList<Account> accts;
 	String[] columnNames = {"Number", "Owner", "Date Opened", "Balance",
 			"Monthly Fee", "Minimum Balance", "Interest Rate"};
@@ -73,19 +73,37 @@ public class BankModel extends AbstractTableModel {
 	}
 	
 	public void sortByNumber() {
-		
-	}
+	Collections.sort(accts, new Comparator<Account>() {
+    	@Override public int compare(Account x, Account y) {
+        return Integer.compare( x.getNumber(), y.getAccountNumber());
+			}
+		});
+        }
+
+   
 	
 	public void sortByName() {
-		
+	Collections.sort(accts, new Comparator<Account>() {
+    	@Override public int compare(Account x, Account y) {
+        return ( x.getOwner().compareTo.(y.getAccountNumber()));
+			}
+		});
 	}
 	
 	public void sortByDateOpened() {
-		
+	Collections.sort(accts, new Comparator<Account>() {
+    	@Override public String compare(Account x, Account y) {
+        return ( x.getDateOpened().compareTo.(y.getDateOpened()));
+			}
+		});
 	}
 	
 	public void sortByBalance() {
-		
+	Collections.sort(accts, new Comparator<Account>() {
+    	@Override public double compare(Account x, Account y) {
+        return Double.compare( x.getBalance(), y.getAccountNumber());
+			}
+		});
 	}
 	
 	public void loadText(String fileName) {
