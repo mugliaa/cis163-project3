@@ -13,6 +13,12 @@ public class BankGUI extends JFrame {
 //	private JList<Account> accts;
 	private JTable accts;
 	
+//	private JOptionPane addChecking;
+//	private JOptionPane addSavings;
+	
+	private CheckingAccountDialogBox addChecking;
+	private SavingsAccountDialogBox addSavings;
+	
 	private JMenuBar menuBar;
 	private JMenu menuFile;
 	private JMenu menuOptions;
@@ -38,6 +44,12 @@ public class BankGUI extends JFrame {
 		
 		accts = new JTable(model);
 //		accts = new JList<Account>(model);
+		
+//		addChecking = new JOptionPane();
+//		addSavings = new JOptionPane();
+		
+		addChecking = new CheckingAccountDialogBox();
+		addSavings = new SavingsAccountDialogBox();
 		
 		ls = new ButtonListener();
 		
@@ -118,10 +130,40 @@ public class BankGUI extends JFrame {
 			}
 
 			if (arg0.getSource() == addCheckingAccount) {
-				
+//				addChecking.showInputDialog("Hello Checking");
+				int temp = addChecking.showDialog();
+				if (temp == JOptionPane.OK_OPTION) {
+					
+				}	
 			}
 			
 			if (arg0.getSource() == addSavingsAccount) {
+//				addSavings.showInputDialog("Hello Savings");
+				int temp = addSavings.showDialog();
+				if (temp == JOptionPane.OK_OPTION) {
+					String tempNum = addSavings.numberField.getText();
+					int num = Integer.parseInt(tempNum);
+					String owner = addSavings.ownerField.getText();
+					String tempDateOpened = 
+							addSavings.dateOpenedField.getText();
+					String[] s = tempDateOpened.split("/");
+					int s0 = Integer.parseInt(s[0]);
+					int s1 = Integer.parseInt(s[1]);
+					int s2 = Integer.parseInt(s[2]);
+					GregorianCalendar c = 
+							new GregorianCalendar(s2, s0, s1);
+					String tempBal = addSavings.balanceField.getText();
+					double balance = Double.parseDouble(tempBal);
+					String tempMin = 
+							addSavings.minimumBalanceField.getText();
+					double minimumBal = Double.parseDouble(tempMin);
+					String tempInterest = 
+							addSavings.interestRateField.getText();
+					double intRate = Double.parseDouble(tempInterest);
+					
+					model.add(new SavingsAccount(num, owner, c, balance, 
+							minimumBal, intRate));
+				}
 				
 			}
 
