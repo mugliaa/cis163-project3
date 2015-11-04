@@ -214,7 +214,7 @@ public class BankGUI extends JFrame {
 			}
 			
 			if (arg0.getSource() == update) {
-				
+				model.update(accts.getSelectedRow());
 			}
 			
 			if (arg0.getSource() == clear) {
