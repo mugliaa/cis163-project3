@@ -139,10 +139,75 @@ public class BankModel extends AbstractTableModel implements Comparable {
 	}
 
 	public void loadBinary(String fileName) {
+		 // The name of the file to open.
+        String fileName = fileName
+
+        try {
+            
+            byte[] buffer = new byte[1000];
+
+            FileInputStream inputStream = 
+                new FileInputStream(fileName);
+                
+            int total = 0;
+            int nRead = 0;
+            while((nRead = inputStream.read(buffer)) != -1) {
+                
+                System.out.println(new String(buffer));
+                total += nRead;
+            }   
+
+            // Always close files.
+            inputStream.close();        
+
+            System.out.println("Read " + total + " bytes");
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                "Unable to open file '" + 
+                fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + fileName + "'");                  
+         
+        }
+
 		fireTableDataChanged();
 	}
 
 	public void saveBinary(String fileName) {
+		 // The name of the file to create.
+        String fileName = "temp.txt";
+
+        try {
+            // Put some bytes in a buffer so we can
+            // write them. Usually this would be
+            // image data or something. Or it might
+            // be unicode text.
+            for (Account a : accts) {
+            String bytes = out.write(a.toString());
+			}
+            byte[] buffer = bytes.getBytes();
+
+            FileOutputStream outputStream =
+                new FileOutputStream(fileName);
+
+            outputStream.write(buffer);
+
+            
+            outputStream.close();       
+
+            System.out.println("Wrote " + buffer.length + 
+                " bytes");
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error writing file '"
+                + fileName + "'");
+        
+        }
 		fireTableDataChanged();
 	}
 
