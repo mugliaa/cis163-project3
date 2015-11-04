@@ -222,28 +222,16 @@ public class BankModel extends AbstractTableModel implements Comparable {
 	public void loadBinary() throws IOException, 
 	ClassNotFoundException {
 		
-		String fileName = JOptionPane.showInputDialog("File Name: ");
+	String fileName = JOptionPane.showInputDialog("File Name: ");
 		
-		// Read from disk using FileInputStream
-		FileInputStream f_in = new 
-				FileInputStream(fileName);
+		FileInputStream f_in = new FileInputStream(fileName);
 
-		// Read object using ObjectInputStream
-		ObjectInputStream obj_in = 
-				new ObjectInputStream (f_in);
+		ObjectInputStream obj_in = new ObjectInputStream(f_in);
 
-		// Read an object
-		Object obj = obj_in.readObject();
+		accts = (ArrayList<Account>) obj_in.readObject();
 
-		System.out.println(obj);	//  this is what holds all the 
-									//  account information
+	
 
-		if (obj instanceof Vector)
-		{
-			// Cast object to a Vector
-			Vector vec = (Vector) obj;
-			System.out.println(obj);
-		}
 		fireTableDataChanged();
 	}
 
