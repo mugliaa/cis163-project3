@@ -13,22 +13,7 @@ public class BankModel extends AbstractTableModel implements Comparable {
 
 	public BankModel() {
 		accts = new ArrayList<>();
-//		accts.add(new CheckingAccount(122, "Adam Muglia", 
-//				new GregorianCalendar (5,5,2012), 155.50, 
-//				12.50));
-//		accts.add(new SavingsAccount(211, "Tyler Miller", 
-//				new GregorianCalendar (5,5,2012), 52.22, 
-//				12.50, 2.7));
 	}
-
-	//	private Account find(int num) {
-	//		for (int i = 0; i < getSize(); i++) {
-	//			if (accts.get(i).getNumber() == num) {
-	//				return accts.get(i);
-	//			}
-	//		}
-	//		return null;
-	//	}
 
 	public String getColumnName(int col) {
 		return columnNames[col];
@@ -54,10 +39,9 @@ public class BankModel extends AbstractTableModel implements Comparable {
 		}
 		return values[arg1];
 	}
-	
+
 	@Override
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -74,7 +58,7 @@ public class BankModel extends AbstractTableModel implements Comparable {
 	public void update(Account acct) {
 		fireTableDataChanged();
 	}
-	
+
 	public void clear() {
 		accts.clear();
 		fireTableDataChanged();
@@ -118,11 +102,14 @@ public class BankModel extends AbstractTableModel implements Comparable {
 		fireTableDataChanged();
 	}
 
-	public void loadText(String fileName) {
-
+	public void loadText() {
+		String fileName = JOptionPane.showInputDialog("File Name: ");
+		
 	}
 
-	public void saveText(String fileName) {
+	public void saveText() {
+		String fileName = JOptionPane.showInputDialog("File Name: ");
+		
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(fileName);
@@ -131,52 +118,56 @@ public class BankModel extends AbstractTableModel implements Comparable {
 			}
 		} 
 		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		out.close();
 		fireTableDataChanged();
 	}
 
-	public void loadBinary(String fileName) throws IOException, ClassNotFoundException {
+	public void loadBinary() throws IOException, 
+	ClassNotFoundException {
+		
+		String fileName = JOptionPane.showInputDialog("File Name: ");
 		
 		// Read from disk using FileInputStream
 		FileInputStream f_in = new 
-			FileInputStream(fileName);
+				FileInputStream(fileName);
 
 		// Read object using ObjectInputStream
 		ObjectInputStream obj_in = 
-			new ObjectInputStream (f_in);
-		
+				new ObjectInputStream (f_in);
+
 		// Read an object
 		Object obj = obj_in.readObject();
-	
-		System.out.println(obj);	//this is what holds all the account information
-	
+
+		System.out.println(obj);	//  this is what holds all the 
+									//  account information
+
 		if (obj instanceof Vector)
 		{
 			// Cast object to a Vector
 			Vector vec = (Vector) obj;
-
 			System.out.println(obj);
 		}
-
 		fireTableDataChanged();
 	}
 
-	public void saveBinary(String fileName) throws IOException{
-		 
-        FileOutputStream fos = new FileOutputStream(fileName);
+	public void saveBinary() throws IOException{
+		String fileName = JOptionPane.showInputDialog("File Name: ");
+		FileOutputStream fos = new FileOutputStream(fileName);
 		ObjectOutputStream out = new ObjectOutputStream(fos);
 		out.writeObject(accts);
 		fireTableDataChanged();
+		out.close();
 	}
 
-	public void loadXML(String fileName) {
+	public void loadXML() {
+		String fileName = JOptionPane.showInputDialog("File Name: ");
 		fireTableDataChanged();
 	}
 
-	public void saveXML(String fileName) {
+	public void saveXML() {
+		String fileName = JOptionPane.showInputDialog("File Name: ");
 		fireTableDataChanged();
 	}
 }
