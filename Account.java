@@ -1,6 +1,7 @@
 package project3;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**********************************************************************
@@ -125,13 +126,24 @@ public abstract class Account implements Serializable {
 		}
 		throw new IllegalArgumentException();
 	}
+	/******************************************************************
+	 * Returns a String representation of a GregorianCalendar.
+	 * @param g calendar to be turned into a String
+	 * @return date formatted as a String
+	 *****************************************************************/
+	private String dateToString(GregorianCalendar g) {
+		int day = g.get(Calendar.DAY_OF_MONTH);
+		int month = g.get(Calendar.MONTH);
+		int year = g.get(Calendar.YEAR);
+		return "" + month + "/" + day + "/" + year;
+	}
 	
 	/******************************************************************
 	 * Converts an account into a String that lists all relevant info.
 	 * @return the String representation of an account
 	 *****************************************************************/
 	public String toString() {
-		return "" + number + "\n" + owner + "\n" + dateOpened
-				+ "\n" + balance + "\n";
+		return "" + number + "\n" + owner + "\n" + dateToString(
+				dateOpened) + "\n" + balance + "\n";
 	}
 }
