@@ -80,7 +80,6 @@ public class SavingsAccount extends Account {
 				return true;
 			else
 				return false;
-	
 	}
 
 	/******************************************************************
@@ -88,7 +87,7 @@ public class SavingsAccount extends Account {
 	 * @return the String representation of a savings account
 	 *****************************************************************/
 	public String toString() {
-		return super.toString() + "" + "\n" + getMinBalance() + 
+		return super.toString() + "\n" + getMinBalance() + 
 				"\n" + getInterestRate();
 	}
 }
