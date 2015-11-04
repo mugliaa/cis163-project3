@@ -138,76 +138,37 @@ public class BankModel extends AbstractTableModel implements Comparable {
 		fireTableDataChanged();
 	}
 
-	public void loadBinary(String fileName) {
-		 // The name of the file to open.
-        String fileName = fileName
+	public void loadBinary(String fileName) throws IOException, ClassNotFoundException {
+		
+		// Read from disk using FileInputStream
+		FileInputStream f_in = new 
+			FileInputStream(fileName);
 
-        try {
-            
-            byte[] buffer = new byte[1000];
+		// Read object using ObjectInputStream
+		ObjectInputStream obj_in = 
+			new ObjectInputStream (f_in);
+		
+		// Read an object
+		Object obj = obj_in.readObject();
+	
+		System.out.println(obj);	//this is what holds all the account information
+	
+		if (obj instanceof Vector)
+		{
+			// Cast object to a Vector
+			Vector vec = (Vector) obj;
 
-            FileInputStream inputStream = 
-                new FileInputStream(fileName);
-                
-            int total = 0;
-            int nRead = 0;
-            while((nRead = inputStream.read(buffer)) != -1) {
-                
-                System.out.println(new String(buffer));
-                total += nRead;
-            }   
-
-            // Always close files.
-            inputStream.close();        
-
-            System.out.println("Read " + total + " bytes");
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                fileName + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error reading file '" 
-                + fileName + "'");                  
-         
-        }
+			System.out.println(obj);
+		}
 
 		fireTableDataChanged();
 	}
 
-	public void saveBinary(String fileName) {
-		 // The name of the file to create.
-        String fileName = "temp.txt";
-
-        try {
-            // Put some bytes in a buffer so we can
-            // write them. Usually this would be
-            // image data or something. Or it might
-            // be unicode text.
-            for (Account a : accts) {
-            String bytes = out.write(a.toString());
-			}
-            byte[] buffer = bytes.getBytes();
-
-            FileOutputStream outputStream =
-                new FileOutputStream(fileName);
-
-            outputStream.write(buffer);
-
-            
-            outputStream.close();       
-
-            System.out.println("Wrote " + buffer.length + 
-                " bytes");
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error writing file '"
-                + fileName + "'");
-        
-        }
+	public void saveBinary(String fileName) throws IOException{
+		 
+        FileOutputStream fos = new FileOutputStream(fileName);
+		ObjectOutputStream out = new ObjectOutputStream(fos);
+		out.writeObject(accts);
 		fireTableDataChanged();
 	}
 
