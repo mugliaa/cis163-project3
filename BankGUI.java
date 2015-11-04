@@ -4,18 +4,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
-
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class BankGUI extends JFrame {
 	private BankModel model;
 	
 //	private JList<Account> accts;
 	private JTable accts;
-	
-//	private JOptionPane addChecking;
-//	private JOptionPane addSavings;
 	
 	private CheckingAccountDialogBox addChecking;
 	private SavingsAccountDialogBox addSavings;
@@ -131,21 +131,54 @@ public class BankGUI extends JFrame {
 		menuBar.add(menuOptions);
 		
 		add(menuBar, BorderLayout.NORTH);
+		
+		accts.getColumnModel().getColumn(3).setCellRenderer(
+		         new DecimalFormatRenderer());
+//		accts.getColumnModel().getColumn(4).setCellRenderer(
+//		         new DecimalFormatRenderer());
+//		accts.getColumnModel().getColumn(5).setCellRenderer(
+//		         new DecimalFormatRenderer());
+//		accts.getColumnModel().getColumn(6).setCellRenderer(
+//		         new DecimalFormatRenderer());
+		
 		add(new JScrollPane(accts), BorderLayout.CENTER);
-//		add(accts, BorderLayout.SOUTH);
 	}
 	
 	public static void main(String[] args) {
 		BankGUI frame = new BankGUI();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.getContentPane();
+		frame.getContentPane().setBackground(Color.WHITE);
 		
 		frame.setSize(800,500);
+		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 	
+	static class DecimalFormatRenderer extends DefaultTableCellRenderer {
+	      private static final DecimalFormat formatter = 
+	    		  new DecimalFormat( "#.00" );
+
+	      public Component getTableCellRendererComponent(
+	    		  JTable table, Object value, boolean isSelected,
+	    		  boolean hasFocus, int row, int column) {
+
+	    	  // First format the cell value as required
+	    	  if (value.equals("-") || value.equals("") || 
+	    			  value.equals(null)) {
+	    		  return null;
+	    	  }
+	    	  
+	    	  value = formatter.format((Number)Double.
+    				  parseDouble((String)value));
+
+	    	  // And pass it on to parent class
+	    	  return super.getTableCellRendererComponent(
+	    			  table, value, isSelected, hasFocus, row, column );
+	      }
+	}
+
 	private class ButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -156,6 +189,33 @@ public class BankGUI extends JFrame {
 			if (arg0.getSource() == addCheckingAccount) {
 				int temp = addChecking.showDialog();
 				if (temp == JOptionPane.OK_OPTION) {
+					
+					if (addChecking.numberField.getText().equals("") || 
+					addChecking.ownerField.getText().equals("") || 
+					addChecking.dateOpenedField.getText().equals("") ||
+					addChecking.balanceField.getText().equals("") ||
+					addChecking.monthlyFeeField.getText().equals("")) {
+						JOptionPane.showMessageDialog(
+								BankGUI.this, "Data is invalid.");
+						return;
+					}
+					
+					if (Integer.parseInt(
+							addChecking.numberField.getText()) < 0 ||
+							Double.parseDouble(
+									addChecking.balanceField.getText()) < 0 ||
+							Double.parseDouble(addChecking.monthlyFeeField
+									.getText()) < 0.0) {
+						JOptionPane.showMessageDialog(BankGUI.this, 
+								"Data can not be negative.");
+						return;
+					}
+				}
+				
+				if (temp == JOptionPane.CANCEL_OPTION) {
+					return;
+				}
+				
 					String tempNum = addChecking.numberField.getText();
 					int num = Integer.parseInt(tempNum);
 					String owner = addChecking.ownerField.getText();
@@ -166,7 +226,7 @@ public class BankGUI extends JFrame {
 					int s1 = Integer.parseInt(s[1]);
 					int s2 = Integer.parseInt(s[2]);
 					GregorianCalendar c = 
-							new GregorianCalendar(s2, s0, s1);
+							new GregorianCalendar(s2, s0 - 1, s1);
 					String tempBal = addChecking.balanceField.getText();
 					double balance = Double.parseDouble(tempBal);
 					String tempMonthlyFee = 
@@ -177,11 +237,39 @@ public class BankGUI extends JFrame {
 							balance, monthlyFee));
 					addChecking.reset();
 				}	
-			}
+		//}
 			
 			if (arg0.getSource() == addSavingsAccount) {
 				int temp = addSavings.showDialog();
 				if (temp == JOptionPane.OK_OPTION) {
+					
+					if (addSavings.numberField.getText().equals("") || 
+					addSavings.ownerField.getText().equals("") || 
+					addSavings.dateOpenedField.getText().equals("") ||
+					addSavings.balanceField.getText().equals("") ||
+					addSavings.minimumBalanceField
+					.getText().equals("") ||
+					addSavings.interestRateField.getText().equals("")) {
+						JOptionPane.showMessageDialog(
+								BankGUI.this, "Data is invalid.");
+						return;
+					}
+
+					if (Integer.parseInt(
+							// Check if this is a cunt
+							addSavings.numberField.getText()) < 0 ||
+							Double.parseDouble(
+							addSavings.balanceField.getText()) < 0 ||
+							Double.parseDouble(addSavings.
+							minimumBalanceField.getText()) < 0.0 || 
+							Double.parseDouble(addSavings.
+								interestRateField.getText()) < 0.0) {
+						JOptionPane.showMessageDialog(BankGUI.this, 
+								"Data can not be negative.");
+						return;
+					}
+
+
 					String tempNum = addSavings.numberField.getText();
 					int num = Integer.parseInt(tempNum);
 					String owner = addSavings.ownerField.getText();
@@ -192,7 +280,7 @@ public class BankGUI extends JFrame {
 					int s1 = Integer.parseInt(s[1]);
 					int s2 = Integer.parseInt(s[2]);
 					GregorianCalendar c = 
-							new GregorianCalendar(s2, s0, s1);
+							new GregorianCalendar(s2, s0 - 1, s1);
 					String tempBal = addSavings.balanceField.getText();
 					double balance = Double.parseDouble(tempBal);
 					String tempMin = 
@@ -241,10 +329,8 @@ public class BankGUI extends JFrame {
 				try {
 					model.loadBinary();
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -253,13 +339,16 @@ public class BankGUI extends JFrame {
 				try {
 					model.saveBinary();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 
 			if (arg0.getSource() == loadText) {
-				model.loadText();
+				try {
+					model.loadText();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 			if (arg0.getSource() == saveText) {
@@ -271,7 +360,11 @@ public class BankGUI extends JFrame {
 			}
 
 			if (arg0.getSource() == saveXML) {
-				model.saveXML();
+				try {
+					model.saveXML();
+				} catch (ParserConfigurationException e) {
+					e.printStackTrace();
+				}
 			}
 
 		}
