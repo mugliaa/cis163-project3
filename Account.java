@@ -115,6 +115,7 @@ public abstract class Account implements Serializable {
 	 * Checks if two accounts are equal via the number associated.
 	 * @param acct the account that is being compared
 	 * @return true if equal; false if not equal
+	 * @throws IllegalArgumentException if Object is not an Account
 	 *****************************************************************/
 	public boolean equals(Object acct) {
 		if (acct instanceof Account) {
@@ -132,10 +133,10 @@ public abstract class Account implements Serializable {
 	 * @return date formatted as a String
 	 *****************************************************************/
 	private String dateToString(GregorianCalendar g) {
-		int day = g.get(Calendar.DAY_OF_MONTH);
 		int month = g.get(Calendar.MONTH);
+		int day = g.get(Calendar.DAY_OF_MONTH);
 		int year = g.get(Calendar.YEAR);
-		return "" + month + "/" + day + "/" + year;
+		return "" + (month + 1) + "/" + day + "/" + year;
 	}
 	
 	/******************************************************************
