@@ -3,6 +3,7 @@ package project3;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
@@ -237,27 +238,40 @@ public class BankGUI extends JFrame {
 			}
 			
 			if (arg0.getSource() == loadBinary) {
-				model.loadBinary("accounts");
+				try {
+					model.loadBinary();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			if (arg0.getSource() == saveBinary) {
-				model.saveBinary("accounts");
+				try {
+					model.saveBinary();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			if (arg0.getSource() == loadText) {
-				model.loadText("accounts");
+				model.loadText();
 			}
 
 			if (arg0.getSource() == saveText) {
-				model.saveText("accounts");
+				model.saveText();
 			}
 
 			if (arg0.getSource() == loadXML) {
-				model.loadXML("accounts");
+				model.loadXML();
 			}
 
 			if (arg0.getSource() == saveXML) {
-				model.saveXML("accounts");
+				model.saveXML();
 			}
 
 		}
